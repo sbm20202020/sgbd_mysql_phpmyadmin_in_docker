@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+
+  db_inss:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db_inss'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3340:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3340'
+      # Where our data will be persisted
+
+    volumes:
+      - my-db-mysql:/var/lib/mysql
+
+  phpmyadmin_inss:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_inss_pratique
+    environment:
+      PMA_ARBITRARY: 1
+    restart: always
+    
+    ports:
+      - '3341:80'
+
+# Names our volume
+volumes:
+  my-db-mysql: null
+
+    # Command to create a docker network
+    # docker network create \--subnet=172.18.0.0/16\ microservices-network-docker
+    # docker network create microservices-network-docker --subnet=172.18.0.0/16 
